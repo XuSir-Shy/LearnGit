@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/css/font.css">
+    <link rel="stylesheet" href="/css/xadmin.css">
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script src="/lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="/js/xadmin.js"></script>
+</head>
+<body>
+<form method="post" class="layui-form" id="userForm">
+    <input name="name" placeholder="请输入用户名"  type="text" lay-verify="required" class="layui-input" >
+    <hr class="hr15">
+    <input name="pwd" lay-verify="required" placeholder="请输入密码"  type="password" class="layui-input">
+    <hr class="hr15">
+    <input name="code" placeholder="请输入验证码"  type="text" class="layui-input">
+    <button class="layui-btn layui-btn-normal" type="submit" lay-submit lay-filter="sendCode">获取验证码</button>
+    <hr class="hr15">
+    <button class="layui-btn layui-btn-normal" type="submit" lay-submit lay-filter="login">登录</button>
+    <span id="info" style="color: red"></span>
+
+</form>
+</body>
+</html>
+<script>
+    $(function  () {
+        layui.use('form', function(){
+            var form = layui.form;
+            //监听提交
+            form.on('submit(login)', function(data){
+                console.log(data.field.name)
+                //发送 ajax请求
+                $.ajax({
+                    url:"/login/cloginAjax",//前端得选择是根据不同的人确定不同的登录方式
+                    type:"post",
+                    data:data.field,
+                    dataType:"json",//返回的数据类型
+                    success:function(data){
+                        //定义{info:"登录成功"}
+                        $("#info").text(data.info);
+                        if(data.info=="登录成功"){
+                            window.location.href="/CustomerInfoManage";
+                        }
+                    }
+                })
+                return false;
+            });
+            form.on('submit(sendCode)', function(data){
+                $.ajax({//发送Ajax请求
+                    url:"/login/sendEmail",
+                    type:"post",
+                    data:data.field,
+                    dataType:"json",//返回的数据类型
+                    success:function (data) {
+                        $("#info").text(data.info);
+                    }
+                });
+                return false;
+            });
+        });
+    })
+</script>

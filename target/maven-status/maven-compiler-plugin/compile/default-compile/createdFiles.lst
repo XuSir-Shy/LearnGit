@@ -1,0 +1,17 @@
+my\util\MdFive.class
+my\controller\loginController.class
+my\controller\CustomerListController.class
+my\pojo\Customer.class
+my\service\CustomerService.class
+my\service\ManagerServiceImp.class
+my\pojo\Manager.class
+my\Begin.class
+my\pojo\Mypage.class
+my\service\CustomerServiceImp.class
+my\dao\ManagerDao.class
+my\filter\loginFilter.class
+my\controller\RegisterController.class
+my\service\ManagerService.class
+my\dao\CustomDao.class
+my\config\UploadConfig.class
+my\controller\ManagerLoginController.class

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge"> 
+<meta name="viewport" content="width=device-width, initial-scale=1"> 
+<title>login</title>
+<link rel="stylesheet" type="text/css" href="/login_res/css/normalize.css" />
+<link rel="stylesheet" type="text/css" href="/login_res/css/demo.css" />
+<!--必要样式-->
+<link rel="stylesheet" type="text/css" href="/login_res/css/component.css" />
+<!--[if IE]>
+<script src="../static/login_res/js/html5.js"></script>
+<！--引入jQuery-->
+	<script src="/js/jquery-3.2.1.min.js"></script>
+<![endif]-->
+<!--引入layui-->
+	<script src="/layui/layui.js"></script>
+	<link rel="stylesheet"  href="/layui/css/layui.css">
+
+<!--这上面的不要动-->
+
+</head>
+<body>
+		<div class="container demo-1">
+			<div class="content">
+				<div id="large-header" class="large-header">
+					<canvas id="demo-canvas"></canvas>
+					<div class="logo_box">
+						<h3>欢迎你</h3>
+							<!--action里面放访问的地址 -->
+						<form action="/login/loginPage" name="userForm" method="get">
+							<div class="input_outer">
+								<span class="u_user"></span>
+								<input  name="name" id="name" class="text" style="color: #FFFFFF !important" type="text" placeholder="请输入账户">
+								<span class="check_uer" id="userExit" hidden></span>
+								<span class="error_uer" id="userNotExit" hidden></span>
+							</div>
+							<div class="input_outer">
+								<span class="us_uer"></span>
+								<input name="pwd" id="pwd" class="text" style="color: #FFFFFF !important; position:absolute; z-index:100;"value="" type="password" placeholder="请输入密码">
+							</div>
+							<div class="input_outer">
+								<span class="code_uer"></span>
+								<input name="code" id="code" class="text" style="color: #FFFFFF !important" type="text" placeholder="请输入验证码">
+							</div>
+							<div class="mb2"><a class="act-email submit" href="javascript:;" style="color: white" onclick="sendCode()">发送验证码</a></div>
+							<div class="mb2"><a type="submit" class="act-but submit" href="javascript:;" style="color: #FFFFFF" onclick="login()">登录</a></div>
+
+						</form>
+					</div>
+				</div>
+			</div>
+		</div><!-- /container -->
+		<script src="/login_res/js/TweenLite.min.js"></script>
+		<script src="/login_res/js/EasePack.min.js"></script>
+		<script src="/login_res/js/rAF.js"></script>
+		<script src="/login_res/js/demo-1.js"></script>
+		<div style="text-align:center;">
+</div>
+
+	</body>
+</html>
+<script>
+	function sendCode() {
+		var name = $("#name").val();
+		$.ajax({//发送Ajax请求
+			url:"/login/sendEmail",
+			type:"post",
+			data:{"name":name},
+			dataType:"json",//返回的数据类型
+			success:function (data) {
+			}
+		});
+	}
+
+	function login() {
+		var name = $("#name").val();
+		var pwd = $("#pwd").val();
+		var code = $("#code").val();
+		console.log("请求登录");
+		$.ajax({
+			url:"/login/cloginAjax",//前端得选择是根据不同的人确定不同的登录方式
+			type:"post",
+			data:{"name":name,"pwd":pwd,"code":code},
+			dataType:"json",//返回的数据类型
+			success:function(data){
+				console.log(data.info);
+				if(data.info==="登录成功")
+				{
+					window.location.href="/customer/info";
+				}
+			}
+		})
+	}
+</script>
